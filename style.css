@@ -1,0 +1,29 @@
+#widget {
+    width: 300px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .info-bar {
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  
+  #current-event {
+    background-color: black;
+    color: yellow;
+  }
+  
+  #future-event {
+    background-color: darkblue;
+    color: pink;
+  }
+  
+  #current-event-image,
+  #future-event-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
