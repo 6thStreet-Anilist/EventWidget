@@ -1,40 +1,24 @@
-name: Update Widget
+name: Website Screenshot Update
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
+    - cron: "0 * * * *"
 
 jobs:
-  update-widget:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Clone repository
-        uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      - name: Update widget and capture screenshot
-        run: |
-          #libraries and tools
-          npm install --global html2canvas
-
-          # Run the script to update the widget and capture the screenshot
-          node script.js
-
-          #move generated screenshot
-          mv screenshot.png $GITHUB_WORKSPACE/screenshot.png
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'chikimoni61@gmail.com'
-          git add .
-          git commit -m 'Update widget'
-          git push
+    - name: Run the script
+      run: node convertWebsiteToImage.js
