@@ -22,3 +22,11 @@ jobs:
 
     - name: Run the script
       run: node convertWebsiteToImage.js
+
+    - name: Commit changes
+      run: |
+        git config --global user.name "ch1kim0n1"
+        git config --global user.email "chikimoni61@gmail.com"
+        git add -A
+        git commit -m "new pic"
+        git push
