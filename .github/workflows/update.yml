@@ -28,3 +28,6 @@ jobs:
         git add -A
         git commit -m "new pic"
         git push
+
+permissions:
+  contents: write
