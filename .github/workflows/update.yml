@@ -26,8 +26,11 @@ jobs:
     - name: Commit changes
       run: |
         git add -A
-        git commit -m "new pic"
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+        git commit -m "Update website screenshot"
         git push
 
-permissions:
-  contents: write
+    permissions:
+      contents: write
+
