@@ -36,6 +36,5 @@ jobs:
         git add -A
         git commit -m "deployment $(Build.BuildNumber)"
         git push --set-upstream origin master 
-      id: Add data.txt file
       working-directory: $(System.DefaultWorkingDirectory)
 
