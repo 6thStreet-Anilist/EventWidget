@@ -23,14 +23,19 @@ jobs:
     - name: Run the script
       run: node convertWebsiteToImage.js
 
-    - name: Commit changes
+    - name: Configure Git
       run: |
-        git add -A
-        git config user.name "${{ github.actor }}"
-        git config user.email "${{ github.actor }}@users.noreply.github.com"
-        git commit -m "Update website screenshot"
-        git push
+        git config --global user.email chikimoni61@gmail.com
+        git config --global user.name "ch1kim0n1"
+      working-directory: $(System.DefaultWorkingDirectory)
 
-    permissions:
-      contents: write
+    - name: Add data.txt file
+      run: |
+        git checkout -b master
+        echo 'This is a test' > data.txt
+        git add -A
+        git commit -m "deployment $(Build.BuildNumber)"
+        git push --set-upstream origin master 
+      id: Add data.txt file
+      working-directory: $(System.DefaultWorkingDirectory)
 
