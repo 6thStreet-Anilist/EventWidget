@@ -1,29 +1,30 @@
 #widget {
-    width: 300px;
-    background-color: #f1f1f1;
-    padding: 20px;
-    border-radius: 5px;
-  }
-  
-  .info-bar {
-    margin-bottom: 20px;
-    padding: 10px;
-  }
-  
-  #current-event {
-    background-color: black;
-    color: yellow;
-  }
-  
-  #future-event {
-    background-color: darkblue;
-    color: pink;
-  }
-  
-  #current-event-image,
-  #future-event-image {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  
+  width: 300px;
+  height: 300px;
+  background-color: #F5A9BC;
+  border: 5px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#top-space {
+  height: 50%;
+  width: 100%;
+}
+
+#event-info {
+  text-align: center;
+  padding: 10px;
+}
+
+#eventDate {
+  font-size: 18px;
+  margin: 0;
+}
+
+#eventTitle {
+  font-size: 24px;
+  margin: 0;
+}

@@ -1,77 +1,47 @@
-// Load the Google API client library
-function loadGoogleApiClient(callback) {
-  const script = document.createElement('script');
-  script.src = 'https://apis.google.com/js/api.js';
-  script.onload = callback;
-  document.body.appendChild(script);
-}
+// Load the Google Calendar API
+gapi.load('client', initialize);
 
-// Function to handle Google Calendar API initialization
-function handleClientLoad() {
-  gapi.load('client:auth2', initClient);
-}
-
-// Initialize the Google Calendar API client
-function initClient() {
+// Initialize the API client library and set up the credentials
+function initialize() {
   gapi.client.init({
-    apiKey: 'YOUR_API_KEY',
-    clientId: 'YOUR_CLIENT_ID',
+    apiKey: '746541266615-s9b4aejdegh0mufernqk8a6n9cf4de7g.apps.googleusercontent.com',
     discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-    scope: 'https://www.googleapis.com/auth/calendar.readonly'
   }).then(function() {
-    // Call the function to fetch calendar data and update the widget
-    fetchCalendarData();
+    // Call the function to load events from Google Calendar
+    loadEvents();
+  }).catch(function(error) {
+    console.log('Error initializing Google Calendar API:', error);
   });
 }
 
-// Function to fetch data from Google Calendar API
-function fetchCalendarData() {
+//---------------DATA IS NOT IMPORTING INTO HTML YET------------------
+// Update the widget with the event information
+document.getElementById('eventDate').textContent = "Access +";
+document.getElementById('eventTitle').textContent = "Access +";
+
+// Load events from Google Calendar
+function loadEvents() {
   gapi.client.calendar.events.list({
-    calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
+    calendarId: '9c007573747b29bbb3089d9b0f8cde06717d3c2abb17db7af599955410dbd368@group.calendar.google.com',
+    timeMin: new Date().toISOString(),
     showDeleted: false,
     singleEvents: true,
-    maxResults: 2,
     orderBy: 'startTime'
   }).then(function(response) {
-    const events = response.result.items;
-
+    var events = response.result.items;
+    
     if (events.length > 0) {
-      // Assuming the first event is "current" and the second event is "future"
-      const currentEvent = events[0];
-      const futureEvent = events[1];
-
-      // Update the "current" event information
-      document.getElementById("current-event-name").textContent = currentEvent.summary;
-      document.getElementById("current-event-date").textContent = currentEvent.end.dateTime;
-      document.getElementById("current-event-image").src = currentEvent.attachments ? currentEvent.attachments[0].fileUrl : '';
-
-      // Update the "future" event information
-      document.getElementById("future-event-name").textContent = futureEvent.summary;
-      document.getElementById("future-event-date").textContent = futureEvent.end.dateTime;
-      document.getElementById("future-event-image").src = futureEvent.attachments ? futureEvent.attachments[0].fileUrl : '';
-
-      // Generate screenshot of the widget
-      html2canvas(document.getElementById("widget")).then(function(canvas) {
-        // Convert the canvas to a data URL
-        const dataUrl = canvas.toDataURL();
-
-        // Create a link element to save the screenshot
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = 'createdWidget.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+      var event = events[0]; // Assuming the first event is the next one
+      var eventDate = new Date(event.start.dateTime);
+      var eventTitle = event.summary;
+      
+      // Update the widget with the event information
+      document.getElementById('eventDate').textContent = eventDate.toLocaleDateString();
+      document.getElementById('eventTitle').textContent = eventTitle;
+    } else {
+      console.log('No upcoming events found.');
     }
-  }, function(error) {
-    console.error('Error fetching calendar events:', error);
+  }).catch(function(error) {
+    console.log('Error loading events:', error);
   });
 }
-
-// Load the Google API client library and initialize the Calendar API
-loadGoogleApiClient(handleClientLoad);
-
-// Schedule periodic widget updates (every hour)
-setInterval(fetchCalendarData, 3600000);
